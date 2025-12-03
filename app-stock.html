@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="App-Stock - Sistema de Inventarios Inteligente para PYMEs y Negocios Medianos">
+    <meta name="author" content="Gustavo Cardona">
+    <title>App-Stock | Sistema de Inventarios - Gustavo Cardona</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/app-stock.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <span class="brand-text">GC</span>
+                </a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="#proyecto" class="nav-link">El Proyecto</a></li>
+                <li><a href="#caracteristicas" class="nav-link">Características</a></li>
+                <li><a href="#tecnologias" class="nav-link">Tecnologías</a></li>
+                <li><a href="#beneficios" class="nav-link">Beneficios</a></li>
+                <li><a href="index.html#contacto" class="nav-link">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section App-Stock -->
+    <section class="hero-project">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-project-content">
+                <div class="breadcrumb">
+                    <a href="index.html">Inicio</a> / <span>App-Stock</span>
+                </div>
+                <h1 class="hero-project-title">
+                    <span class="project-icon">📦</span>
+                    App-Stock
+                </h1>
+                <p class="hero-project-subtitle">Sistema de Inventarios Inteligente</p>
+                <p class="hero-project-description">
+                    Solución completa para la gestión de inventarios en PYMEs y negocios medianos. 
+                    Desarrollado con Vue 3 y las herramientas más modernas para agilizar procesos y escalar con tu negocio.
+                </p>
+                <div class="project-badges">
+                    <span class="badge badge-primary">Vue 3</span>
+                    <span class="badge badge-secondary">PWA</span>
+                    <span class="badge badge-accent">Mobile First</span>
+                    <span class="badge badge-success">En Desarrollo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visión del Proyecto -->
+    <section class="project-overview" id="proyecto">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Visión del Proyecto</span>
+                <h2 class="section-title">Revolucionando la Gestión de Inventarios</h2>
+            </div>
+            <div class="overview-content">
+                <div class="overview-text">
+                    <p class="lead">
+                        App-Stock nace de la necesidad de modernizar y agilizar el control de inventarios 
+                        en pequeñas y medianas empresas, eliminando los procesos manuales y reduciendo errores.
+                    </p>
+                    <p>
+                        A través de una aplicación móvil intuitiva conectada con un potente manager empresarial, 
+                        las empresas pueden gestionar su stock en tiempo real, generar cajas actualizadas y 
+                        tomar decisiones basadas en datos precisos.
+                    </p>
+                </div>
+                <div class="overview-stats">
+                    <div class="stat-box">
+                        <div class="stat-icon">⚡</div>
+                        <h3>70% más rápido</h3>
+                        <p>Proceso de inventario</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">✓</div>
+                        <h3>95% precisión</h3>
+                        <p>En conteo de stock</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-icon">📱</div>
+                        <h3>100% móvil</h3>
+                        <p>Acceso desde cualquier lugar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Características Principales -->
+    <section class="features-section" id="caracteristicas">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Funcionalidades</span>
+                <h2 class="section-title">Características Principales</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-box-icon">📱</div>
+                    <h3>App Móvil Avanzada</h3>
+                    <p>
+                        Aplicación móvil con herramientas especializadas para agilizar el sistema de inventarios. 
+                        Escaneo de códigos de barras, captura de datos offline y sincronización automática.
+                    </p>
+                    <ul class="feature-list">
+                        <li>✓ Escaneo de códigos QR y barras</li>
+                        <li>✓ Modo offline completo</li>
+                        <li>✓ Actualización en tiempo real</li>
+                        <li>✓ Interfaz intuitiva y rápida</li>
+                    </ul>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-box-icon">🎛️</div>
+                    <h3>Manager Empresarial</h3>
+                    <p>
+                        Panel de control completo para la gestión empresarial. Visualiza métricas, genera 
+                        reportes y controla todos los aspectos de tu inventario desde un solo lugar.
+                    </p>
+                    <ul class="feature-list">
+                        <li>✓ Dashboard con métricas clave</li>
+                        <li>✓ Reportes personalizables</li>
+                        <li>✓ Gestión de usuarios y permisos</li>
+                        <li>✓ Alertas de stock bajo</li>
+                    </ul>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-box-icon">💰</div>
+                    <h3>Creación de Cajas</h3>
+                    <p>
+                        Sistema automatizado de creación de cajas actualizado con el inventario en tiempo real. 
+                        Ideal para PYMEs y negocios medianos que necesitan control financiero preciso.
+                    </p>
+                    <ul class="feature-list">
+                        <li>✓ Cierre de caja automático</li>
+                        <li>✓ Sincronización con inventario</li>
+                        <li>✓ Histórico de transacciones</li>
+                        <li>✓ Conciliación simplificada</li>
+                    </ul>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-box-icon">📈</div>
+                    <h3>Escalabilidad Total</h3>
+                    <p>
+                        Arquitectura diseñada para crecer con tu negocio. Desde una pequeña tienda hasta 
+                        múltiples sucursales, App-Stock se adapta a tus necesidades.
+                    </p>
+                    <ul class="feature-list">
+                        <li>✓ Multi-sucursal</li>
+                        <li>✓ Miles de productos soportados</li>
+                        <li>✓ Rendimiento optimizado</li>
+                        <li>✓ Crecimiento sin límites</li>
+                    </ul>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-box-icon">🛡️</div>
+                    <h3>Seguridad Empresarial</h3>
+                    <p>
+                        Protección de datos de nivel empresarial con encriptación, backups automáticos 
+                        y control de accesos granular.
+                    </p>
+                    <ul class="feature-list">
+                        <li>✓ Encriptación de datos</li>
+                        <li>✓ Backup automático diario</li>
+                        <li>✓ Autenticación multi-factor</li>
+                        <li>✓ Logs de auditoría</li>
+                    </ul>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-box-icon">🎯</div>
+                    <h3>Soporte Dedicado</h3>
+                    <p>
+                        Acompañamiento completo durante la implementación y uso del sistema. 
+                        Capacitación, actualizaciones y asistencia técnica continua.
+                    </p>
+                    <ul class="feature-list">
+                        <li>✓ Onboarding personalizado</li>
+                        <li>✓ Capacitación del equipo</li>
+                        <li>✓ Soporte técnico prioritario</li>
+                        <li>✓ Actualizaciones incluidas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stack Tecnológico -->
+    <section class="tech-stack" id="tecnologias">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Stack Tecnológico</span>
+                <h2 class="section-title">Tecnologías de Vanguardia</h2>
+            </div>
+            <div class="tech-stack-grid">
+                <div class="tech-stack-category">
+                    <h3>Frontend</h3>
+                    <div class="tech-stack-items">
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">⚡</span>
+                            <div class="tech-stack-info">
+                                <h4>Vue 3</h4>
+                                <p>Framework reactivo con Composition API</p>
+                            </div>
+                        </div>
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">🍍</span>
+                            <div class="tech-stack-info">
+                                <h4>Pinia</h4>
+                                <p>Gestión de estado moderna y eficiente</p>
+                            </div>
+                        </div>
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">📱</span>
+                            <div class="tech-stack-info">
+                                <h4>PWA</h4>
+                                <p>Capacidades nativas offline</p>
+                            </div>
+                        </div>
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">📘</span>
+                            <div class="tech-stack-info">
+                                <h4>TypeScript</h4>
+                                <p>Tipado fuerte para código robusto</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack-category">
+                    <h3>Backend & Base de Datos</h3>
+                    <div class="tech-stack-items">
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">🟢</span>
+                            <div class="tech-stack-info">
+                                <h4>Node.js</h4>
+                                <p>Runtime de alto rendimiento</p>
+                            </div>
+                        </div>
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">🚀</span>
+                            <div class="tech-stack-info">
+                                <h4>Express.js</h4>
+                                <p>API RESTful escalable</p>
+                            </div>
+                        </div>
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">🍃</span>
+                            <div class="tech-stack-info">
+                                <h4>MongoDB</h4>
+                                <p>Base de datos NoSQL flexible</p>
+                            </div>
+                        </div>
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">🔄</span>
+                            <div class="tech-stack-info">
+                                <h4>Redis</h4>
+                                <p>Caché y sesiones en tiempo real</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-stack-category">
+                    <h3>DevOps & Herramientas</h3>
+                    <div class="tech-stack-items">
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">🐳</span>
+                            <div class="tech-stack-info">
+                                <h4>Docker</h4>
+                                <p>Contenedores para deployment</p>
+                            </div>
+                        </div>
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">⚙️</span>
+                            <div class="tech-stack-info">
+                                <h4>Vite</h4>
+                                <p>Build tool ultra rápido</p>
+                            </div>
+                        </div>
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">🧪</span>
+                            <div class="tech-stack-info">
+                                <h4>Vitest</h4>
+                                <p>Testing unitario y de integración</p>
+                            </div>
+                        </div>
+                        <div class="tech-stack-item">
+                            <span class="tech-stack-icon">🔐</span>
+                            <div class="tech-stack-info">
+                                <h4>JWT</h4>
+                                <p>Autenticación segura</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Beneficios para el Negocio -->
+    <section class="benefits-section" id="beneficios">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Valor Agregado</span>
+                <h2 class="section-title">Beneficios para tu Negocio</h2>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-number">01</div>
+                    <h3>Reducción de Costos</h3>
+                    <p>Elimina errores manuales y optimiza recursos. Ahorra hasta un 40% en costos operativos de inventario.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-number">02</div>
+                    <h3>Toma de Decisiones</h3>
+                    <p>Accede a métricas en tiempo real para decisiones basadas en datos, no en suposiciones.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-number">03</div>
+                    <h3>Productividad</h3>
+                    <p>Automatiza procesos repetitivos y libera tiempo para actividades estratégicas del negocio.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-number">04</div>
+                    <h3>Control Total</h3>
+                    <p>Visibilidad completa del inventario desde cualquier lugar, en cualquier momento.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-number">05</div>
+                    <h3>Escalabilidad</h3>
+                    <p>Crece sin preocupaciones. El sistema se adapta al crecimiento de tu negocio.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-number">06</div>
+                    <h3>Soporte Continuo</h3>
+                    <p>Acompañamiento permanente para garantizar el éxito de la implementación.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">¿Listo para modernizar tu inventario?</h2>
+                <p class="cta-description">
+                    Hablemos sobre cómo App-Stock puede transformar la gestión de tu negocio
+                </p>
+                <div class="cta-buttons">
+                    <a href="index.html#contacto" class="btn btn-primary btn-large">Solicitar Demo</a>
+                    <a href="index.html" class="btn btn-secondary btn-large">Ver más proyectos</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    Desarrollado con Vue 3 y tecnologías modernas
+                </p>
+                <p class="footer-copyright">
+                    &copy; 2025 Gustavo Cardona. Todos los derechos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
