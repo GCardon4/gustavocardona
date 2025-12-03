@@ -10,9 +10,49 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="confirm-body">
-    <div class="confirm-container">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Verificando tu cuenta...</p>
+        </div>
+    </div>
+
+    <!-- Error Screen -->
+    <div class="error-screen" id="errorScreen" style="display: none;">
+        <div class="confirm-container">
+            <div class="confirm-card error-card">
+                <div class="error-animation">
+                    <div class="error-circle">
+                        <div class="error-mark">✕</div>
+                    </div>
+                </div>
+                <div class="confirm-content">
+                    <h1 class="confirm-title error-title">Error en la Verificación</h1>
+                    <p class="confirm-subtitle error-subtitle" id="errorMessage">
+                        Hubo un problema al verificar tu cuenta
+                    </p>
+                    <div class="confirm-message error-message">
+                        <p id="errorDetails">
+                            El enlace de confirmación puede haber expirado o ser inválido. 
+                            Por favor, intenta registrarte nuevamente o contacta con soporte.
+                        </p>
+                    </div>
+                    <div class="confirm-actions">
+                        <a href="index.html" class="btn btn-primary btn-large">Volver al Inicio</a>
+                        <a href="index.html#contacto" class="btn btn-secondary btn-large">Contactar Soporte</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="confirm-container" id="successScreen" style="display: none;">
         <div class="confirm-card">
             <!-- Animación de Éxito -->
             <div class="success-animation">
@@ -29,7 +69,7 @@
                 <div class="confirm-message">
                     <p>
                         Bienvenido a la nueva era de la gestión de inventarios. 
-                        Tu cuenta ha sido activada correctamente y ya puedes comenzar a disfrutar 
+                        Tu cuenta <strong id="userEmail"></strong> ha sido activada correctamente y ya puedes comenzar a disfrutar 
                         de todas las funcionalidades de <strong>App-Stock</strong>.
                     </p>
                 </div>
@@ -89,7 +129,7 @@
 
                 <!-- Botones de Acción -->
                 <div class="confirm-actions">
-                    <a href="#" class="btn btn-primary btn-large">Acceder a la Aplicación</a>
+                    <a href="#" id="btnAccederApp" class="btn btn-primary btn-large">Acceder a la Aplicación</a>
                     <a href="app-stock.html" class="btn btn-secondary btn-large">Conocer más sobre App-Stock</a>
                 </div>
 
@@ -115,6 +155,8 @@
         </div>
     </div>
 
+    <!-- Script de configuración de Supabase -->
+    <script src="js/supabase-config.js"></script>
     <script src="js/confirm.js"></script>
 </body>
 </html>

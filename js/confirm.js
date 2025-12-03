@@ -1,13 +1,164 @@
 // ===================================
 // PÁGINA DE CONFIRMACIÓN - APP-STOCK
+// INTEGRACIÓN CON SUPABASE
 // ===================================
 
 document.addEventListener('DOMContentLoaded', inicializarPaginaConfirmacion);
 
-function inicializarPaginaConfirmacion() {
-    animarElementos();
-    configurarConfetti();
-    guardarEventoConfirmacion();
+async function inicializarPaginaConfirmacion() {
+    mostrarPantallaLoader();
+    await procesarConfirmacionSupabase();
+}
+
+// ===================================
+// PROCESAMIENTO DE CONFIRMACIÓN SUPABASE
+// ===================================
+
+async function procesarConfirmacionSupabase() {
+    try {
+        // Obtener parámetros de la URL enviados por Supabase
+        const urlParams = new URLSearchParams(window.location.search);
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        
+        // Supabase puede enviar el token en diferentes formatos
+        const accessToken = hashParams.get('access_token') || urlParams.get('access_token');
+        const refreshToken = hashParams.get('refresh_token') || urlParams.get('refresh_token');
+        const type = hashParams.get('type') || urlParams.get('type');
+        const error = hashParams.get('error') || urlParams.get('error');
+        const errorDescription = hashParams.get('error_description') || urlParams.get('error_description');
+
+        console.log('📝 Parámetros recibidos:', { type, error });
+
+        // Verificar si hay errores en la URL
+        if (error) {
+            throw new Error(errorDescription || 'Error en la verificación');
+        }
+
+        // Verificar el tipo de evento
+        if (type === 'signup' || type === 'email_confirmation' || type === 'recovery') {
+            // Obtener el usuario actual de Supabase
+            const { data: { user }, error: userError } = await window.supabase.auth.getUser(accessToken);
+
+            if (userError) {
+                throw new Error('No se pudo verificar el usuario: ' + userError.message);
+            }
+
+            if (!user) {
+                throw new Error('No se encontró información del usuario');
+            }
+
+            console.log('✅ Usuario verificado:', user);
+
+            // Guardar sesión si hay tokens
+            if (accessToken && refreshToken) {
+                const { error: sessionError } = await window.supabase.auth.setSession({
+                    access_token: accessToken,
+                    refresh_token: refreshToken
+                });
+
+                if (sessionError) {
+                    console.warn('⚠️ Error al establecer la sesión:', sessionError);
+                }
+            }
+
+            // Actualizar el perfil del usuario si es necesario
+            await actualizarPerfilUsuario(user);
+
+            // Mostrar pantalla de éxito
+            mostrarPantallaExito(user);
+
+        } else {
+            // Si no hay tipo específico, intentar verificar la sesión actual
+            const { data: { session }, error: sessionError } = await window.supabase.auth.getSession();
+
+            if (sessionError || !session) {
+                throw new Error('No se pudo confirmar la verificación. El enlace puede haber expirado.');
+            }
+
+            mostrarPantallaExito(session.user);
+        }
+
+    } catch (error) {
+        console.error('❌ Error en confirmación:', error);
+        mostrarPantallaError(error.message);
+    }
+}
+
+// ===================================
+// ACTUALIZAR PERFIL DE USUARIO
+// ===================================
+
+async function actualizarPerfilUsuario(user) {
+    try {
+        // Aquí puedes actualizar información adicional en tu tabla de usuarios
+        const { error } = await window.supabase
+            .from('usuarios') // Nombre de tu tabla
+            .upsert({
+                id: user.id,
+                email: user.email,
+                email_confirmado: true,
+                fecha_confirmacion: new Date().toISOString(),
+                ultimo_acceso: new Date().toISOString()
+            }, {
+                onConflict: 'id'
+            });
+
+        if (error && error.code !== 'PGRST116') { // Ignorar si la tabla no existe
+            console.warn('⚠️ No se pudo actualizar el perfil:', error);
+        } else {
+            console.log('✅ Perfil actualizado correctamente');
+        }
+
+    } catch (error) {
+        console.warn('⚠️ Error al actualizar perfil:', error);
+    }
+}
+
+// ===================================
+// PANTALLAS DE ESTADO
+// ===================================
+
+function mostrarPantallaLoader() {
+    document.getElementById('loadingScreen').style.display = 'flex';
+    document.getElementById('errorScreen').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'none';
+}
+
+function mostrarPantallaExito(user) {
+    // Ocultar loader
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('errorScreen').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+
+    // Mostrar email del usuario
+    const emailElement = document.getElementById('userEmail');
+    if (emailElement && user?.email) {
+        emailElement.textContent = user.email;
+    }
+
+    // Guardar datos en localStorage
+    guardarEventoConfirmacion(user);
+
+    // Animar elementos
+    setTimeout(() => {
+        animarElementos();
+        configurarConfetti();
+    }, 100);
+
+    // Configurar botón de acceso
+    configurarBotonAcceso();
+}
+
+function mostrarPantallaError(mensajeError) {
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'none';
+    document.getElementById('errorScreen').style.display = 'block';
+
+    // Actualizar mensaje de error
+    const errorDetails = document.getElementById('errorDetails');
+    if (errorDetails) {
+        errorDetails.textContent = mensajeError;
+    }
 }
 
 // ===================================
@@ -114,43 +265,56 @@ document.head.appendChild(estiloConfetti);
 // GUARDAR EVENTO DE CONFIRMACIÓN
 // ===================================
 
-function guardarEventoConfirmacion() {
-    // Obtener parámetros de la URL si existen
-    const urlParams = new URLSearchParams(window.location.search);
-    const email = urlParams.get('email');
-    const token = urlParams.get('token');
-    
+function guardarEventoConfirmacion(user) {
     // Guardar en localStorage para referencia
     const datosConfirmacion = {
         fecha: new Date().toISOString(),
-        email: email || 'no especificado',
+        email: user?.email || 'no especificado',
+        userId: user?.id || null,
         confirmado: true
     };
     
     localStorage.setItem('appStockConfirmacion', JSON.stringify(datosConfirmacion));
     
     console.log('✅ Confirmación de registro exitosa:', datosConfirmacion);
+    
+    // Registrar evento en analytics
+    registrarEventoAnalytics(datosConfirmacion);
 }
 
 // ===================================
-// MANEJO DE BOTONES
+// CONFIGURAR BOTÓN DE ACCESO
 // ===================================
 
-// Configurar botón de acceso a la aplicación
-const botonAcceso = document.querySelector('.confirm-actions .btn-primary');
-if (botonAcceso) {
-    botonAcceso.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // Aquí se redigiría a la aplicación real
-        mostrarNotificacionAcceso();
-        
-        // Simular redirección
-        setTimeout(() => {
-            // window.location.href = 'https://app.app-stock.com/login';
-            console.log('Redirigiendo a la aplicación...');
-        }, 2000);
-    });
+function configurarBotonAcceso() {
+    const botonAcceso = document.getElementById('btnAccederApp');
+    
+    if (botonAcceso) {
+        botonAcceso.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            try {
+                // Verificar que hay una sesión activa
+                const { data: { session } } = await window.supabase.auth.getSession();
+                
+                if (session) {
+                    mostrarNotificacionAcceso();
+                    
+                    // Redirigir a tu aplicación
+                    setTimeout(() => {
+                        // Reemplaza con la URL de tu aplicación
+                        window.location.href = '/app/dashboard'; // o 'https://app.app-stock.com/dashboard'
+                    }, 1500);
+                } else {
+                    // Si no hay sesión, redirigir al login
+                    window.location.href = '/login'; // o 'https://app.app-stock.com/login'
+                }
+            } catch (error) {
+                console.error('Error al acceder:', error);
+                window.location.href = '/login';
+            }
+        });
+    }
 }
 
 function mostrarNotificacionAcceso() {
@@ -226,22 +390,45 @@ estiloNotificacion.textContent = `
 document.head.appendChild(estiloNotificacion);
 
 // ===================================
-// TRACKING Y ANALYTICS (OPCIONAL)
+// TRACKING Y ANALYTICS
 // ===================================
 
-function registrarEventoAnalytics() {
-    // Aquí se integraría con Google Analytics, Mixpanel, etc.
+function registrarEventoAnalytics(datos) {
+    // Google Analytics
     if (typeof gtag !== 'undefined') {
         gtag('event', 'registro_confirmado', {
             'event_category': 'Usuario',
-            'event_label': 'Confirmación Email App-Stock'
+            'event_label': 'Confirmación Email App-Stock',
+            'user_id': datos.userId
         });
+    }
+    
+    // Facebook Pixel
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'CompleteRegistration');
     }
     
     console.log('📊 Evento de confirmación registrado');
 }
 
-// Registrar evento cuando la página carga completamente
-window.addEventListener('load', registrarEventoAnalytics);
+// ===================================
+// UTILIDADES
+// ===================================
+
+// Función para obtener información del usuario actual
+async function obtenerUsuarioActual() {
+    try {
+        const { data: { user }, error } = await window.supabase.auth.getUser();
+        
+        if (error) {
+            throw error;
+        }
+        
+        return user;
+    } catch (error) {
+        console.error('Error al obtener usuario:', error);
+        return null;
+    }
+}
 
 console.log('✅ Página de confirmación de App-Stock cargada correctamente');
