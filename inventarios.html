@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventarios APP - Gestión Inteligente PWA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <nav class="fixed w-full z-50 glass border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-blue-600 tracking-tight">INVENTARIOS<span class="text-gray-800">APP</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#bodega" class="hover:text-blue-600 transition">Módulo Bodega</a>
+                    <a href="#manager" class="hover:text-blue-600 transition">Módulo Manager</a>
+                    <a href="#caracteristicas" class="hover:text-blue-600 transition">Características</a>
+                </div>
+                <div>
+                    <span class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold">PWA Ready</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-16 gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6">Control de Inventarios en la palma de tu mano</h1>
+            <p class="text-xl mb-10 text-blue-100 max-w-3xl mx-auto">
+                Una solución PWA ágil con entrada de voz y escaneo de códigos de barras diseñada para optimizar la logística de tu empresa.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="flex items-center bg-white/10 px-4 py-2 rounded-lg border border-white/20">
+                    <i class="fas fa-microphone mr-2"></i> Comando por Voz
+                </div>
+                <div class="flex items-center bg-white/10 px-4 py-2 rounded-lg border border-white/20">
+                    <i class="fas fa-barcode mr-2"></i> Código de Barras
+                </div>
+                <div class="flex items-center bg-white/10 px-4 py-2 rounded-lg border border-white/20">
+                    <i class="fas fa-mobile-alt mr-2"></i> Experiencia PWA
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="bodega" class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2">
+                    <span class="text-blue-600 font-bold uppercase tracking-wider text-sm">Operatividad Total</span>
+                    <h2 class="text-3xl font-bold mt-2 mb-6 text-gray-800">Módulo de Usuario Bodega</h2>
+                    <p class="text-gray-600 mb-8 text-lg">Optimizado para el ingreso rápido de productos mediante múltiples métodos tecnológicos, eliminando cuellos de botella.</p>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span><strong>Ingreso Inteligente:</strong> Manual, voz por campos o comando directo: <em>"Cantidad - Nombre - Precio"</em>.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span><strong>Dashboard en tiempo real:</strong> Visualiza stock total, valor de costo y productos por empresa asignada.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span><strong>Gestión de Campos:</strong> Control total de SKU, precios de venta, porcentajes de ganancia y proveedores.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="lg:w-1/2 grid grid-cols-2 gap-4">
+                    <img src="images/inventarios/modulo_inventario_01.png" alt="Ingreso de Productos" class="rounded-xl shadow-lg border hover:scale-105 transition duration-300">
+                    <img src="images/inventarios/modulo_inventario_02.png" alt="Panel de Información" class="rounded-xl shadow-lg border mt-8 hover:scale-105 transition duration-300">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="manager" class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col lg:flex-row-reverse items-center gap-12">
+                <div class="lg:w-1/2">
+                    <span class="text-blue-600 font-bold uppercase tracking-wider text-sm">Administración Central</span>
+                    <h2 class="text-3xl font-bold mt-2 mb-6 text-gray-800">Módulo Manager (Admin)</h2>
+                    <p class="text-gray-600 mb-8 text-lg">El centro de control para supervisar múltiples empresas, gestionar usuarios y exportar datos críticos.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <i class="fas fa-building text-blue-500 text-2xl mb-4"></i>
+                            <h3 class="font-bold mb-2">Gestión de Empresas</h3>
+                            <p class="text-sm text-gray-500">Creación según planes, listado de productos y reseteo automático cada 28 días.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <i class="fas fa-users text-blue-500 text-2xl mb-4"></i>
+                            <h3 class="font-bold mb-2">Control de Usuarios</h3>
+                            <p class="text-sm text-gray-500">Creación de usuarios de bodega y asignación específica a empresas.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <i class="fas fa-file-excel text-green-600 text-2xl mb-4"></i>
+                            <h3 class="font-bold mb-2">Reportes Exportables</h3>
+                            <p class="text-sm text-gray-500">Exportación de listado de productos a Excel con un solo clic.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <i class="fas fa-truck text-blue-500 text-2xl mb-4"></i>
+                            <h3 class="font-bold mb-2">Proveedores</h3>
+                            <p class="text-sm text-gray-500">Módulo opcional para creación y asignación de proveedores a empresas.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <img src="images/inventarios/screenshot_01.jpg" alt="Panel Admin" class="rounded-xl shadow-2xl border-4 border-white">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="caracteristicas" class="py-20 gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-16">Tecnología de Vanguardia para tu Negocio</h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div>
+                    <div class="text-4xl font-bold mb-2">PWA</div>
+                    <p class="text-blue-100">Instalable en dispositivos móviles para una experiencia de usuario nativa y fluida.</p>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">Agilidad</div>
+                    <p class="text-blue-100">Registro de productos en segundos mediante voz o escáner, sin errores manuales.</p>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold mb-2">Escalable</div>
+                    <p class="text-blue-100">Capacidad multi-empresa y multi-usuario con control de límites según plan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 bg-gray-900 text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="mb-4">Diseño UI/UX de alta calidad para soluciones empresariales.</p>
+            <div class="text-sm">
+                &copy; 2026 Inventarios APP. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
