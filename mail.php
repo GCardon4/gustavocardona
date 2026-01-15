@@ -73,9 +73,16 @@ class ContactForm {
             <p>Mientras tanto, te invitamos a explorar nuestra solución de <strong>Gestión de Inventarios (PWA)</strong>.</p>
 
             <div class='credenziali'>
-                <h3 style='margin-top:0; color: #1e3a8a;'>🎯 Acceso a la Demo:</h3>
+                <h3 style='margin-top:0; color: #1e3a8a;'>Acceso a la Demo:</h3>
                 <p style='margin: 5px 0;'><strong>Enlace:</strong> <a href='https://inventarios-app.netlify.app/#/'>https://inventarios-app.netlify.app/</a></p>
                 <p style='margin: 5px 0;'><strong>Usuario:</strong> gerentecaramanta@gmail.com</p>
+                <p style='margin: 5px 0;'><strong>Contraseña:</strong> demo2026*</p>
+            </div>
+
+             <div class='credenziali'>
+                <h3 style='margin-top:0; color: #1e3a8a;'>Acceso al App Inventario:</h3>
+                <p style='margin: 5px 0;'><strong>Enlace:</strong> <a href='https://inventarios-app.netlify.app/#/'>https://inventarios-app.netlify.app/</a></p>
+                <p style='margin: 5px 0;'><strong>Usuario:</strong> bodega@caramanta.com</p>
                 <p style='margin: 5px 0;'><strong>Contraseña:</strong> demo2026*</p>
             </div>
 
@@ -89,6 +96,10 @@ class ContactForm {
                 <li><strong>Módulo Manager:</strong> Visualiza el stock total y exporta reportes a Excel.</li>
                 <li><strong>Modo PWA:</strong> Ábrelo en tu móvil e instálalo como una App nativa.</li>
             </ul>
+
+            <div>
+                <a href='https://gustavocardona.com/inventarios.html' class='button'>AMPLIA LA INFORMACIÓN</a>
+            </div>
 
             <p style='font-size: 14px; color: #64748b; font-style: italic;'>Nota: Esta cuenta demo permite la visualización completa de funciones, pero los datos se resetean periódicamente.</p>
         </div>
