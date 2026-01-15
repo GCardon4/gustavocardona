@@ -97,7 +97,7 @@ class ContactForm {
                 <li><strong>Modo PWA:</strong> Ábrelo en tu móvil e instálalo como una App nativa.</li>
             </ul>
 
-            <div>
+            <div style='text-align: center;'>
                 <a href='https://gustavocardona.com/inventarios.html' class='button'>AMPLIA LA INFORMACIÓN</a>
             </div>
 
