@@ -222,4 +222,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 } else {
     http_response_code(403);
     echo "Hay un problema con el envío, por favor intenta de nuevo.";
-}message
+}
