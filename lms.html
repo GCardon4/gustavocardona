@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Interactivo: LMS Kirkpatrick</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        teal: {
+                            50: '#f0fdfa',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos obligatorios para contenedores de gráficos (Responsive & Constrained) */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px;
+                max-height: 400px;
+            }
+        }
+        
+        /* Ocultar scrollbar para un diseño más limpio en listas internas */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Chosen Palette: Warm Neutrals (Slate) with Teal accents for a professional, educational, and modern tech feel. -->
+    
+    <!-- Application Structure Plan: 
+         1. Hero/Header: Immediate context and global KPIs (Users, Courses).
+         2. Overview (Beneficios): Quick grid summarizing the strategic value.
+         3. Tech Stack: Interactive comparison of Nuxt & Supabase to understand the 'How'.
+         4. Kirkpatrick Model (Core): Interactive tabbed interface. This is the heart of the report. Users click through levels 1-4 to see specific tools, metrics, and a dynamically updating chart showing expected KPI thresholds. This transforms static text into an exploratory learning experience.
+         5. Roadmap: Visual timeline representation of the 4-phase rollout using a dynamic Chart.js timeline chart to understand the 'When'.
+         Structure chosen to move from high-level 'Why/What' to detailed 'How' and finally 'When', optimizing cognitive load.
+    -->
+
+    <!-- Visualization & Content Choices: 
+         - KPIs: Simple HTML cards for immediate numerical impact (200 usuarios, 20 cursos). Goal: Inform.
+         - Tech Stack: HTML Flex/Grid cards with hover effects. Goal: Organize & Inform. NO SVG used, relying on Unicode emojis for iconography.
+         - Kirkpatrick Interactive Section: Tabbed JS interface + Bar Chart. Goal: Change/Interact. The Bar chart updates dynamically via Chart.js to show hypothetical target metrics for each evaluation level, making abstract metrics concrete.
+         - Timeline: Chart.js Line/Area chart displaying cumulative completion expected over the 4 phases. Goal: Compare/Inform over time.
+         - Library: Chart.js for all canvas rendering. NO SVG. NO Mermaid.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="text-2xl">🎓</span>
+                    <span class="font-bold text-xl text-slate-900 tracking-tight">LMS<span class="text-teal-600">Pro</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#vision" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors">Visión</a>
+                    <a href="#tecnologia" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors">Tecnología</a>
+                    <a href="#modelo" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors">Modelo Kirkpatrick</a>
+                    <a href="#cronograma" class="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors">Cronograma</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- Hero Section -->
+        <header class="text-center space-y-4 pt-8 pb-12 border-b border-slate-200">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-teal-700 text-sm font-medium mb-4">
+                <span>🚀</span> Propuesta Técnica y Pedagógica
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+                LMS Basado en el <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-teal-400">Modelo Kirkpatrick</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg text-slate-600 leading-relaxed">
+                Una plataforma diseñada a medida para garantizar una cobertura nacional estable y rápida, centrando su éxito no solo en la entrega de contenido, sino en la <strong>medición del impacto real de la capacitación</strong>.
+            </p>
+            
+            <!-- Global KPIs -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 max-w-4xl mx-auto">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center">
+                    <span class="text-3xl mb-1">👥</span>
+                    <span class="text-2xl font-bold text-slate-800">200</span>
+                    <span class="text-xs text-slate-500 uppercase tracking-wider font-medium">Usuarios Base</span>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center">
+                    <span class="text-3xl mb-1">📚</span>
+                    <span class="text-2xl font-bold text-slate-800">20</span>
+                    <span class="text-xs text-slate-500 uppercase tracking-wider font-medium">Cursos Iniciales</span>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center">
+                    <span class="text-3xl mb-1">📶</span>
+                    <span class="text-2xl font-bold text-slate-800">100%</span>
+                    <span class="text-xs text-slate-500 uppercase tracking-wider font-medium">Cobertura Nacional</span>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center">
+                    <span class="text-3xl mb-1">🎯</span>
+                    <span class="text-2xl font-bold text-slate-800">4</span>
+                    <span class="text-xs text-slate-500 uppercase tracking-wider font-medium">Niveles de Medición</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Section: Beneficios Estratégicos -->
+        <section id="vision" class="scroll-mt-24">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900">Beneficios Estratégicos</h2>
+                <p class="text-slate-600 mt-2 max-w-3xl">Este proyecto transforma la capacitación tradicional en un ecosistema digital eficiente. Explore a continuación los pilares estratégicos que justifican la implementación de esta arquitectura.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
+                    <div class="h-12 w-12 bg-teal-50 rounded-lg flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">💰</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Reducción de Costos</h3>
+                    <p class="text-sm text-slate-600">Eliminación total de gastos logísticos, desplazamientos y papelería inherentes a las capacitaciones presenciales.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
+                    <div class="h-12 w-12 bg-teal-50 rounded-lg flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">⚖️</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Estandarización</h3>
+                    <p class="text-sm text-slate-600">El mismo nivel de excelencia educativa sin importar si el usuario está en la capital o en la provincia más lejana.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
+                    <div class="h-12 w-12 bg-teal-50 rounded-lg flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">📈</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Decisiones con Datos</h3>
+                    <p class="text-sm text-slate-600">Generación de reportes automáticos semanales sobre el estado y avance de la capacitación a nivel nacional.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow group">
+                    <div class="h-12 w-12 bg-teal-50 rounded-lg flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🛡️</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Cumplimiento Legal</h3>
+                    <p class="text-sm text-slate-600">Mantenimiento de un registro digitalizado y auditable de toda la formación recibida por cada colaborador.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Stack Tecnológico -->
+        <section id="tecnologia" class="scroll-mt-24 bg-slate-100 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-12 rounded-3xl">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-slate-900">Arquitectura Tecnológica "Mobile First"</h2>
+                <p class="text-slate-600 mt-3">Para asegurar el acceso desde celulares en cualquier territorio nacional con conexiones inestables, hemos seleccionado un stack moderno que separa el motor de renderizado (Frontend) de la infraestructura de datos (Backend).</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                
+                <!-- Frontend Panel -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                        <span class="text-4xl">⚡</span>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-800">Nuxt 3</h3>
+                            <p class="text-sm text-teal-600 font-medium">El Motor del Frontend</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="mt-1 text-teal-500">▶</span>
+                            <div>
+                                <strong class="block text-slate-800">Velocidad y SEO</strong>
+                                <span class="text-sm text-slate-600">Renderizado híbrido que carga la plataforma en milisegundos, vital para zonas rurales.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="mt-1 text-teal-500">▶</span>
+                            <div>
+                                <strong class="block text-slate-800">Experiencia de Usuario (UX)</strong>
+                                <span class="text-sm text-slate-600">Navegación fluida tipo SPA sin recargas de página, mejorando la retención.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="mt-1 text-teal-500">▶</span>
+                            <div>
+                                <strong class="block text-slate-800">Modularidad</strong>
+                                <span class="text-sm text-slate-600">Componentes reutilizables que facilitan la administración de los 20 cursos.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Backend Panel -->
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+                        <span class="text-4xl">🗄️</span>
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-800">Supabase</h3>
+                            <p class="text-sm text-teal-600 font-medium">La Infraestructura de Datos</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="mt-1 text-teal-500">▶</span>
+                            <div>
+                                <strong class="block text-slate-800">Base de Datos PostgreSQL</strong>
+                                <span class="text-sm text-slate-600">Relaciones robustas entre usuarios, intentos de examen y encuestas.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="mt-1 text-teal-500">▶</span>
+                            <div>
+                                <strong class="block text-slate-800">Auth & Real-time</strong>
+                                <span class="text-sm text-slate-600">Seguridad empresarial y seguimiento del progreso de estudiantes en vivo.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="mt-1 text-teal-500">▶</span>
+                            <div>
+                                <strong class="block text-slate-800">Storage Optimizado</strong>
+                                <span class="text-sm text-slate-600">Almacenamiento eficiente para videos, PDFs y certificados digitales.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Interactive Kirkpatrick Model -->
+        <section id="modelo" class="scroll-mt-24">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900">El Modelo Kirkpatrick en Acción</h2>
+                <p class="text-slate-600 mt-2 max-w-3xl">La verdadera innovación de este LMS radica en cómo mide la efectividad. Interactúe con los botones de la izquierda para explorar cómo la plataforma aborda cada uno de los 4 niveles de evaluación, pasando desde la simple satisfacción hasta el impacto financiero real.</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Interactive Nav -->
+                <div class="w-full lg:w-1/3 flex flex-col space-y-3" id="kirkpatrick-nav">
+                    <button data-level="1" class="kp-btn active text-left px-5 py-4 rounded-xl border-2 transition-all duration-200 border-teal-500 bg-teal-50 text-teal-800 shadow-sm flex items-center justify-between group">
+                        <div>
+                            <span class="block text-xs font-bold uppercase tracking-wider text-teal-600 mb-1">Nivel 1</span>
+                            <span class="text-lg font-bold">Reacción</span>
+                        </div>
+                        <span class="text-2xl opacity-80">😊</span>
+                    </button>
+                    <button data-level="2" class="kp-btn text-left px-5 py-4 rounded-xl border-2 transition-all duration-200 border-slate-200 bg-white hover:border-teal-200 hover:bg-slate-50 text-slate-600 flex items-center justify-between group">
+                        <div>
+                            <span class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 group-hover:text-teal-500">Nivel 2</span>
+                            <span class="text-lg font-bold text-slate-800">Aprendizaje</span>
+                        </div>
+                        <span class="text-2xl opacity-60">🧠</span>
+                    </button>
+                    <button data-level="3" class="kp-btn text-left px-5 py-4 rounded-xl border-2 transition-all duration-200 border-slate-200 bg-white hover:border-teal-200 hover:bg-slate-50 text-slate-600 flex items-center justify-between group">
+                        <div>
+                            <span class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 group-hover:text-teal-500">Nivel 3</span>
+                            <span class="text-lg font-bold text-slate-800">Comportamiento</span>
+                        </div>
+                        <span class="text-2xl opacity-60">🛠️</span>
+                    </button>
+                    <button data-level="4" class="kp-btn text-left px-5 py-4 rounded-xl border-2 transition-all duration-200 border-slate-200 bg-white hover:border-teal-200 hover:bg-slate-50 text-slate-600 flex items-center justify-between group">
+                        <div>
+                            <span class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 group-hover:text-teal-500">Nivel 4</span>
+                            <span class="text-lg font-bold text-slate-800">Resultados</span>
+                        </div>
+                        <span class="text-2xl opacity-60">📈</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Content Area -->
+                <div class="w-full lg:w-2/3 bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm relative overflow-hidden">
+                    <!-- Decorator shape -->
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-teal-50 rounded-full opacity-50 blur-2xl pointer-events-none"></div>
+                    
+                    <div id="kp-content-area" class="relative z-10 transition-opacity duration-300">
+                        <!-- Dynamic Content Inserted Here -->
+                    </div>
+
+                    <!-- Dynamic Chart Container -->
+                    <div class="mt-8 border-t border-slate-100 pt-8">
+                        <h4 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 text-center" id="kp-chart-title">Métricas de Éxito Proyectadas (Nivel 1)</h4>
+                        <div class="chart-container">
+                            <canvas id="kpChart"></canvas>
+                        </div>
+                        <p class="text-xs text-center text-slate-400 mt-2">*Datos ilustrativos de las metas del sistema</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Cronograma & Data -->
+        <section id="cronograma" class="scroll-mt-24 mb-16">
+            <div class="mb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+                <div class="max-w-2xl">
+                    <h2 class="text-3xl font-bold text-slate-900">Cronograma de Lanzamiento</h2>
+                    <p class="text-slate-600 mt-2">Plan estructurado en 4 fases metodológicas durante 4 meses, garantizando la estabilidad técnica de Nuxt/Supabase y la carga paulatina de los 20 cursos antes del despliegue nacional.</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <!-- CSS Based Timeline -->
+                <div class="relative wrap overflow-hidden p-4 md:p-8 h-full">
+                    <div class="border-2-2 absolute border-opacity-20 border-teal-500 h-full border left-1/2 hidden md:block" style="transform: translateX(-50%);"></div>
+                    
+                    <!-- Right timeline item -->
+                    <div class="mb-8 flex justify-between items-center w-full right-timeline flex-col md:flex-row">
+                        <div class="order-1 md:w-5/12 hidden md:block"></div>
+                        <div class="z-20 flex items-center order-1 bg-teal-500 shadow-xl w-8 h-8 rounded-full mb-4 md:mb-0">
+                            <span class="mx-auto font-semibold text-lg text-white">1</span>
+                        </div>
+                        <div class="order-1 bg-slate-50 rounded-xl shadow-sm border border-slate-100 w-full md:w-5/12 px-6 py-4">
+                            <h3 class="font-bold text-slate-800 text-lg">Fase 1 (Mes 1)</h3>
+                            <p class="text-sm font-medium leading-snug tracking-wide text-teal-600 mb-2">Fundaciones Técnicas</p>
+                            <p class="text-sm text-slate-600">Configuración de la arquitectura en Supabase (Base de datos, Auth) y desarrollo de la estructura base escalable utilizando Nuxt 3.</p>
+                        </div>
+                    </div>
+
+                    <!-- Left timeline item -->
+                    <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline flex-col md:flex-row-reverse">
+                        <div class="order-1 md:w-5/12 hidden md:block"></div>
+                        <div class="z-20 flex items-center order-1 bg-teal-500 shadow-xl w-8 h-8 rounded-full mb-4 md:mb-0">
+                            <span class="mx-auto font-semibold text-lg text-white">2</span>
+                        </div>
+                        <div class="order-1 bg-slate-50 rounded-xl shadow-sm border border-slate-100 w-full md:w-5/12 px-6 py-4">
+                            <h3 class="font-bold text-slate-800 text-lg">Fase 2 (Mes 2)</h3>
+                            <p class="text-sm font-medium leading-snug tracking-wide text-teal-600 mb-2">Módulos de Evaluación Básica</p>
+                            <p class="text-sm text-slate-600">Desarrollo e integración de los módulos interactivos correspondientes al Modelo Kirkpatrick Nivel 1 (Satisfacción) y Nivel 2 (Aprendizaje).</p>
+                        </div>
+                    </div>
+
+                    <!-- Right timeline item -->
+                    <div class="mb-8 flex justify-between items-center w-full right-timeline flex-col md:flex-row">
+                        <div class="order-1 md:w-5/12 hidden md:block"></div>
+                        <div class="z-20 flex items-center order-1 bg-teal-500 shadow-xl w-8 h-8 rounded-full mb-4 md:mb-0">
+                            <span class="mx-auto font-semibold text-lg text-white">3</span>
+                        </div>
+                        <div class="order-1 bg-slate-50 rounded-xl shadow-sm border border-slate-100 w-full md:w-5/12 px-6 py-4">
+                            <h3 class="font-bold text-slate-800 text-lg">Fase 3 (Mes 3)</h3>
+                            <p class="text-sm font-medium leading-snug tracking-wide text-teal-600 mb-2">Carga de Contenido y Piloto</p>
+                            <p class="text-sm text-slate-600">Ingreso de los 20 cursos iniciales en la plataforma y ejecución de pruebas piloto en entorno real con un grupo focalizado de 10 usuarios.</p>
+                        </div>
+                    </div>
+
+                    <!-- Left timeline item -->
+                    <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline flex-col md:flex-row-reverse">
+                        <div class="order-1 md:w-5/12 hidden md:block"></div>
+                        <div class="z-20 flex items-center order-1 bg-teal-500 shadow-xl w-8 h-8 rounded-full mb-4 md:mb-0">
+                            <span class="mx-auto font-semibold text-lg text-white">4</span>
+                        </div>
+                        <div class="order-1 bg-teal-50 rounded-xl shadow-sm border border-teal-200 w-full md:w-5/12 px-6 py-4">
+                            <h3 class="font-bold text-slate-800 text-lg">Fase 4 (Mes 4)</h3>
+                            <p class="text-sm font-bold leading-snug tracking-wide text-teal-700 mb-2">Lanzamiento Nacional</p>
+                            <p class="text-sm text-slate-700">Despliegue a los 200 usuarios y activación de los módulos de seguimiento Kirkpatrick Niveles 3 (Comportamiento) y 4 (Resultados/Dashboard BI).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Growth Visualization -->
+                <div class="mt-8 pt-8 border-t border-slate-100">
+                     <h3 class="text-center font-bold text-slate-800 mb-4">Proyección de Carga de Usuarios (Adopción)</h3>
+                     <div class="chart-container">
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="mb-2"><span class="text-white font-bold">LMS Pro Kirkpatrick</span> - Interfaz analítica generada basada en requerimientos técnicos.</p>
+            <p class="text-sm">Arquitectura Nuxt 3 + Supabase + Diseño Responsive.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- DATA STORE ---
+            const kirkpatrickData = {
+                1: {
+                    title: "Nivel 1: Reacción (Satisfacción)",
+                    icon: "😊",
+                    description: "Mide cómo reaccionan los participantes frente al programa de capacitación. ¿Fue relevante, atractivo y útil?",
+                    herramienta: "Micro-encuestas NPS obligatorias al finalizar cada video o módulo del curso.",
+                    metrica: "Índice de satisfacción del contenido, calificación del instructor y usabilidad de la plataforma web.",
+                    objetivo: "Ajustar y optimizar rápidamente los 20 cursos según el feedback inmediato de los 200 usuarios para evitar el abandono.",
+                    chartData: {
+                        labels: ['Satisfacción UI', 'Calidad Contenido', 'Relevancia', 'Facilidad de Uso'],
+                        data: [95, 88, 92, 98],
+                        label: '% de Aprobación Esperada'
+                    }
+                },
+                2: {
+                    title: "Nivel 2: Aprendizaje (Conocimiento)",
+                    icon: "🧠",
+                    description: "Mide el grado en que los participantes adquieren los conocimientos, habilidades y actitudes previstos.",
+                    herramienta: "Cuestionarios dinámicos integrados en el LMS y evaluaciones de opción múltiple con lógica aleatoria (previene copias).",
+                    metrica: "Puntaje promedio obtenido, tasa de aprobación y número de intentos necesarios por módulo.",
+                    objetivo: "Asegurar y certificar que el conocimiento teórico ha sido retenido por el colaborador antes de permitir el avance de nivel.",
+                    chartData: {
+                        labels: ['Aprobación 1er Intento', 'Retención Teórica', 'Completitud de Quizzes', 'Precisión de Respuestas'],
+                        data: [75, 85, 100, 80],
+                        label: 'Métricas de Aprendizaje (%)'
+                    }
+                },
+                3: {
+                    title: "Nivel 3: Comportamiento (Transferencia)",
+                    icon: "🛠️",
+                    description: "Mide el grado en que los participantes aplican lo aprendido en su entorno real de trabajo.",
+                    herramienta: "Panel de 'Evidencias de Desempeño' en el LMS para subir fotos/documentos, complementado con validación de jefes vía Supabase.",
+                    metrica: "Tasa de aplicación práctica y porcentaje de habilidades validadas positivamente por los supervisores directos.",
+                    objetivo: "Garantizar que la capacitación se traduzca en nuevas prácticas laborales, justificando el tiempo invertido fuera de la operación.",
+                    chartData: {
+                        labels: ['Evidencias Subidas', 'Validación Jefe', 'Cambio de Rutina', 'Mantenimiento a 30 días'],
+                        data: [60, 75, 50, 65],
+                        label: 'Tasa de Transferencia (%)'
+                    }
+                },
+                4: {
+                    title: "Nivel 4: Resultados (Impacto)",
+                    icon: "📈",
+                    description: "Mide los resultados finales que se produjeron debido a la asistencia a la capacitación y su aplicación.",
+                    herramienta: "Dashboard de Inteligencia de Negocios (BI) que correlaciona datos del LMS (completitud) con KPIs externos de la organización.",
+                    metrica: "Retorno de Inversión (ROI), reducción de errores operativos, aumento de ventas o mejora en auditorías normativas.",
+                    objetivo: "Demostrar a la junta directiva el valor financiero y estratégico del LMS, justificando la inversión en Nuxt/Supabase.",
+                    chartData: {
+                        labels: ['Reducción de Errores', 'Aumento de Ventas', 'Cumplimiento Legal', 'ROI Global'],
+                        data: [40, 25, 100, 150],
+                        label: 'Impacto en Negocio (%)'
+                    }
+                }
+            };
+
+            // --- STATE MANAGEMENT ---
+            let currentState = {
+                activeLevel: 1,
+                kpChartInstance: null,
+                timelineChartInstance: null
+            };
+
+            // --- DOM ELEMENTS ---
+            const kpNavButtons = document.querySelectorAll('.kp-btn');
+            const kpContentArea = document.getElementById('kp-content-area');
+            const kpChartTitle = document.getElementById('kp-chart-title');
+            const kpChartCanvas = document.getElementById('kpChart').getContext('2d');
+            const timelineChartCanvas = document.getElementById('timelineChart').getContext('2d');
+
+            // --- FUNCTIONS ---
+
+            // Function to render the text content for the Kirkpatrick section
+            function renderKirkpatrickContent(level) {
+                const data = kirkpatrickData[level];
+                
+                const html = `
+                    <div class="mb-6 flex items-center gap-3">
+                        <span class="text-4xl">${data.icon}</span>
+                        <h3 class="text-2xl md:text-3xl font-bold text-slate-800">${data.title}</h3>
+                    </div>
+                    <p class="text-slate-600 mb-6 text-lg">${data.description}</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-teal-600 mb-1">🛠️ Herramienta Técnica LMS</h4>
+                            <p class="text-slate-700">${data.herramienta}</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-teal-600 mb-1">📏 Métrica Clave</h4>
+                            <p class="text-slate-700">${data.metrica}</p>
+                        </div>
+                        <div class="bg-teal-50 p-4 rounded-xl border border-teal-100">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-teal-700 mb-1">🎯 Objetivo Estratégico</h4>
+                            <p class="text-teal-900 font-medium">${data.objetivo}</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Simple fade effect
+                kpContentArea.style.opacity = 0;
+                setTimeout(() => {
+                    kpContentArea.innerHTML = html;
+                    kpContentArea.style.opacity = 1;
+                }, 150);
+            }
+
+            // Function to render/update the Chart.js chart for Kirkpatrick
+            function renderKirkpatrickChart(level) {
+                const data = kirkpatrickData[level];
+                kpChartTitle.textContent = `Métricas de Éxito Proyectadas (Nivel ${level})`;
+
+                if (currentState.kpChartInstance) {
+                    currentState.kpChartInstance.destroy();
+                }
+
+                currentState.kpChartInstance = new Chart(kpChartCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: data.chartData.labels,
+                        datasets: [{
+                            label: data.chartData.label,
+                            data: data.chartData.data,
+                            backgroundColor: 'rgba(20, 184, 166, 0.2)', // teal-500 with opacity
+                            borderColor: 'rgba(13, 148, 136, 1)', // teal-600
+                            borderWidth: 2,
+                            borderRadius: 6,
+                            hoverBackgroundColor: 'rgba(20, 184, 166, 0.4)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // Critical for custom container sizing
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: '#1e293b',
+                                titleFont: { family: 'Inter', size: 13 },
+                                bodyFont: { family: 'Inter', size: 14 },
+                                padding: 12,
+                                cornerRadius: 8,
+                                displayColors: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.parsed.y + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: Math.max(...data.chartData.data) > 100 ? Math.max(...data.chartData.data) + 20 : 100,
+                                grid: { color: '#f1f5f9' },
+                                ticks: { color: '#64748b', font: { family: 'Inter' } }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { 
+                                    color: '#475569', 
+                                    font: { family: 'Inter', weight: '500' },
+                                    // Label wrapping logic for Chart.js
+                                    callback: function(value, index, values) {
+                                        let label = this.getLabelForValue(value);
+                                        if (label.length > 15) {
+                                            const words = label.split(' ');
+                                            let lines = [];
+                                            let currentLine = '';
+                                            words.forEach(word => {
+                                                if ((currentLine + word).length > 15) {
+                                                    lines.push(currentLine.trim());
+                                                    currentLine = word + ' ';
+                                                } else {
+                                                    currentLine += word + ' ';
+                                                }
+                                            });
+                                            lines.push(currentLine.trim());
+                                            return lines;
+                                        } else {
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        animation: { duration: 600, easing: 'easeOutQuart' }
+                    }
+                });
+            }
+
+            // Function to handle UI button state
+            function updateNavUI(level) {
+                kpNavButtons.forEach(btn => {
+                    const btnLevel = parseInt(btn.getAttribute('data-level'));
+                    if (btnLevel === level) {
+                        btn.classList.add('border-teal-500', 'bg-teal-50', 'text-teal-800');
+                        btn.classList.remove('border-slate-200', 'bg-white', 'text-slate-600');
+                        // Update inner spans based on selection
+                        btn.querySelector('span:first-child').classList.replace('text-slate-400', 'text-teal-600');
+                        btn.querySelector('.text-lg').classList.replace('text-slate-800', 'font-bold');
+                    } else {
+                        btn.classList.remove('border-teal-500', 'bg-teal-50', 'text-teal-800');
+                        btn.classList.add('border-slate-200', 'bg-white', 'text-slate-600');
+                        btn.querySelector('span:first-child').classList.replace('text-teal-600', 'text-slate-400');
+                    }
+                });
+            }
+
+            // Setup Timeline Chart
+            function initTimelineChart() {
+                currentState.timelineChartInstance = new Chart(timelineChartCanvas, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mes 1 (Fase 1)', 'Mes 2 (Fase 2)', 'Mes 3 (Piloto)', 'Mes 4 (Lanzamiento)'],
+                        datasets: [
+                            {
+                                label: 'Usuarios Activos',
+                                data: [0, 0, 10, 200],
+                                borderColor: '#0ea5e9', // Sky blue
+                                backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#0ea5e9',
+                                pointRadius: 5
+                            },
+                            {
+                                label: 'Cursos Disponibles',
+                                data: [0, 2, 20, 20],
+                                borderColor: '#14b8a6', // Teal
+                                backgroundColor: 'transparent',
+                                borderWidth: 3,
+                                borderDash: [5, 5],
+                                tension: 0.1,
+                                pointBackgroundColor: '#14b8a6',
+                                pointRadius: 5
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // Critical for custom container
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { font: { family: 'Inter' }, usePointStyle: true, boxWidth: 8 }
+                            },
+                            tooltip: {
+                                backgroundColor: '#1e293b',
+                                titleFont: { family: 'Inter', size: 13 },
+                                bodyFont: { family: 'Inter', size: 14 },
+                                padding: 12,
+                                cornerRadius: 8
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: '#f1f5f9' },
+                                ticks: { color: '#64748b', font: { family: 'Inter' } }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#475569', font: { family: 'Inter' } }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // --- EVENT LISTENERS ---
+            kpNavButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const level = parseInt(button.getAttribute('data-level'));
+                    if (currentState.activeLevel !== level) {
+                        currentState.activeLevel = level;
+                        updateNavUI(level);
+                        renderKirkpatrickContent(level);
+                        renderKirkpatrickChart(level);
+                    }
+                });
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // --- INITIALIZATION ---
+            renderKirkpatrickContent(1);
+            renderKirkpatrickChart(1);
+            initTimelineChart();
+        });
+    </script>
+</body>
+</html>
