@@ -7,10 +7,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
+                         primary: '#2563EB',
+                         secondary: '#D97706',
+                         accent: '#059669',
+                         dark: '#1E293B',
+                         light: '#F8FAFC',
+
                         slate: {
                             50: '#f8fafc',
                             100: '#f1f5f9',
@@ -61,6 +68,44 @@
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 400px;
+            min-height: 300px;
+        }
+
+        .pyramid-level {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            margin: 0 auto 4px auto;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.2s;
+        }
+        
+        .pyramid-level:hover {
+            transform: scale(1.02);
+        }
+
+        .timeline-dot {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 9999px;
+            background-color: #2563EB;
+            border: 4px solid #DBEAFE;
+            position: absolute;
+            left: -0.75rem;
+            top: 0;
         }
     </style>
 </head>
@@ -396,6 +441,154 @@
             </div>
         </section>
 
+
+        <section class="bg-dark text-white py-16 px-6 shadow-xl border-b-8 border-primary relative overflow-hidden">
+        <div class="max-w-6xl mx-auto relative z-10">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">Arquitectura LMS <span class="text-secondary">Kirkpatrick</span></h1>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mb-8 leading-relaxed">
+                Transformando la capacitación corporativa con Nuxt 3 y Supabase. De un repositorio de videos a una plataforma analítica de gestión del talento enfocada en el impacto real del negocio.
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/20 text-center">
+                    <div class="text-3xl font-black text-primary">200</div>
+                    <div class="text-sm text-gray-300 font-semibold mt-1 uppercase">Usuarios Activos</div>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/20 text-center">
+                    <div class="text-3xl font-black text-secondary">20</div>
+                    <div class="text-sm text-gray-300 font-semibold mt-1 uppercase">Cursos Base</div>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/20 text-center">
+                    <div class="text-3xl font-black text-accent">Nacional</div>
+                    <div class="text-sm text-gray-300 font-semibold mt-1 uppercase">Cobertura Web</div>
+                </div>
+                <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/20 text-center">
+                    <div class="text-3xl font-black text-blue-400">4</div>
+                    <div class="text-sm text-gray-300 font-semibold mt-1 uppercase">Niveles de Análisis</div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute top-0 right-0 opacity-10 text-[20rem] font-black leading-none pointer-events-none select-none -mt-20 -mr-10">K</div>
+    </section>
+
+        <section>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-dark mb-4">El Modelo Kirkpatrick Aplicado</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Nuestra arquitectura integra métodos de recolección de datos en cuatro capas fundamentales, permitiendo medir desde la percepción inicial hasta el retorno de inversión (ROI).
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="flex flex-col justify-end h-full pt-10">
+                    <div class="pyramid-level bg-accent w-2/4 py-4 rounded-t-md shadow-lg" style="opacity: 0.9;">Nivel 4: Resultados</div>
+                    <div class="pyramid-level bg-secondary w-3/4 py-5 rounded-sm shadow-lg" style="opacity: 0.95;">Nivel 3: Comportamiento</div>
+                    <div class="pyramid-level bg-primary w-11/12 py-6 rounded-sm shadow-lg">Nivel 2: Aprendizaje</div>
+                    <div class="pyramid-level bg-dark w-full py-7 rounded-b-md shadow-lg">Nivel 1: Reacción</div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-dark transition-all hover:shadow-lg">
+                        <h3 class="font-bold text-xl mb-1 text-dark">Nivel 1: Reacción (Satisfacción)</h3>
+                        <p class="text-sm text-gray-600 mb-2">Formularios reactivos (Nuxt) guardados en `satisfaction_surveys`.</p>
+                        <div class="flex items-center text-sm font-semibold text-primary"><span class="mr-2 text-lg">&#8611;</span> Métrica: Net Promoter Score (NPS)</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-primary transition-all hover:shadow-lg">
+                        <h3 class="font-bold text-xl mb-1 text-primary">Nivel 2: Aprendizaje (Conocimiento)</h3>
+                        <p class="text-sm text-gray-600 mb-2">Evaluaciones Pre/Post. Supabase maneja intentos y validación.</p>
+                        <div class="flex items-center text-sm font-semibold text-primary"><span class="mr-2 text-lg">&#8611;</span> Métrica: Delta de conocimiento</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-secondary transition-all hover:shadow-lg">
+                        <h3 class="font-bold text-xl mb-1 text-secondary">Nivel 3: Comportamiento (Transferencia)</h3>
+                        <p class="text-sm text-gray-600 mb-2">Edge Functions envían correos 30-60-90 días pos-curso a jefes.</p>
+                        <div class="flex items-center text-sm font-semibold text-primary"><span class="mr-2 text-lg">&#8611;</span> Métrica: % de aplicación en el puesto</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-accent transition-all hover:shadow-lg">
+                        <h3 class="font-bold text-xl mb-1 text-accent">Nivel 4: Resultados (Impacto)</h3>
+                        <p class="text-sm text-gray-600 mb-2">Cruce de datos de capacitación con KPIs del negocio mensual.</p>
+                        <div class="flex items-center text-sm font-semibold text-primary"><span class="mr-2 text-lg">&#8611;</span> Métrica: Retorno de Inversión (ROI)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-primary">
+            <h2 class="text-3xl font-bold text-dark mb-4">Proyección de Retención del Conocimiento</h2>
+            <p class="text-lg text-gray-600 mb-8">
+                Un LMS tradicional pierde efectividad rápidamente. Al implementar evaluaciones continuas y seguimiento de comportamiento a los 30, 60 y 90 días (Nivel 3 de Kirkpatrick), la retención del conocimiento y su aplicación mejoran drásticamente.
+            </p>
+            
+            <div class="chart-container">
+                <canvas id="retentionChart"></canvas>
+            </div>
+        </section>
+
+        <section>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-secondary">
+                    <h2 class="text-3xl font-bold text-dark mb-4">Modelo Relacional de Datos</h2>
+                    <p class="text-md text-gray-600 mb-8">
+                        Para garantizar alta eficiencia y tiempos de respuesta óptimos a nivel nacional, la base de datos PostgreSQL en Supabase se estructura en tablas clave. Esta proyección muestra el volumen estimado de interacciones por usuario durante el primer año.
+                    </p>
+                    
+                    <div class="chart-container">
+                        <canvas id="databaseChart"></canvas>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl font-bold text-dark mb-8 pt-4">Fases de Implementación</h2>
+                    
+                    <div class="relative border-l-4 border-gray-200 ml-4 space-y-10 pb-8">
+                        <div class="relative pl-8">
+                            <div class="timeline-dot bg-dark border-gray-200"></div>
+                            <h3 class="text-xl font-bold text-dark">Fase 1: MVP (Mínimo Viable)</h3>
+                            <p class="text-gray-600 mt-2">Gestión de 200 usuarios iniciales, visualización de videos optimizados y ejecución de cuestionarios básicos para validar los Niveles 1 y 2.</p>
+                        </div>
+                        
+                        <div class="relative pl-8">
+                            <div class="timeline-dot bg-primary border-blue-100"></div>
+                            <h3 class="text-xl font-bold text-primary">Fase 2: Gamificación y Cobertura</h3>
+                            <p class="text-gray-600 mt-2">Implementación de certificados automatizados, ranking de progreso y optimización de assets estáticos (Nuxt Image) para conexiones lentas.</p>
+                        </div>
+
+                        <div class="relative pl-8">
+                            <div class="timeline-dot bg-secondary border-amber-100"></div>
+                            <h3 class="text-xl font-bold text-secondary">Fase 3: Transferencia (Nivel 3)</h3>
+                            <p class="text-gray-600 mt-2">Creación del panel de seguimiento para supervisores y configuración de Supabase Edge Functions para disparar encuestas de desempeño en el puesto.</p>
+                        </div>
+
+                        <div class="relative pl-8">
+                            <div class="timeline-dot bg-accent border-green-100"></div>
+                            <h3 class="text-xl font-bold text-accent">Fase 4: Analítica Avanzada (Nivel 4)</h3>
+                            <p class="text-gray-600 mt-2">Desarrollo del Dashboard ejecutivo integrando bases de datos externas de la compañía para calcular el impacto organizacional (ROI/ROE) directo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-dark text-white rounded-2xl shadow-xl p-10 text-center">
+            <h2 class="text-2xl font-bold mb-4">¿Por qué este Stack Tecnológico?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="text-4xl font-bold text-accent mb-2">&#10003;</div>
+                    <h4 class="text-lg font-bold mb-2">Nuxt 3 + Tailwind</h4>
+                    <p class="text-sm text-gray-400">Generación estática e hidratación rápida asegura tiempos de carga mínimos en cualquier región del país.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="text-4xl font-bold text-accent mb-2">&#10003;</div>
+                    <h4 class="text-lg font-bold mb-2">Supabase PostgreSQL</h4>
+                    <p class="text-sm text-gray-400">Base de datos relacional robusta con Row Level Security para proteger la privacidad de cada usuario.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="text-4xl font-bold text-accent mb-2">&#10003;</div>
+                    <h4 class="text-lg font-bold mb-2">Edge Functions</h4>
+                    <p class="text-sm text-gray-400">Automatizan el seguimiento post-curso (30-60-90 días) sin necesidad de mantener servidores dedicados.</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-12">
@@ -711,6 +904,157 @@
             renderKirkpatrickChart(1);
             initTimelineChart();
         });
+
+        function wrapLabel(label) {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + word).length > 16) {
+                    if (currentLine.trim() !== '') lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            }
+            if (currentLine.trim() !== '') lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const retentionLabelsRaw = ['Día 1 (Fin del Curso)', 'Seguimiento 15 Días', 'Aplicación 30 Días', 'Evaluación 60 Días', 'Impacto a 90 Días'];
+        const retentionLabels = retentionLabelsRaw.map(wrapLabel);
+
+        const ctxRetention = document.getElementById('retentionChart').getContext('2d');
+        new Chart(ctxRetention, {
+            type: 'line',
+            data: {
+                labels: retentionLabels,
+                datasets: [
+                    {
+                        label: 'LMS Tradicional',
+                        data: [95, 60, 40, 25, 15],
+                        borderColor: '#94A3B8',
+                        backgroundColor: 'rgba(148, 163, 184, 0.2)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#94A3B8'
+                    },
+                    {
+                        label: 'LMS Kirkpatrick (Nuxt/Supabase)',
+                        data: [95, 88, 85, 82, 80],
+                        borderColor: '#2563EB',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 4,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#2563EB',
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { font: { family: 'Inter', size: 13 } }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                    return label.join(' ');
+                                } else {
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: '% de Retención / Aplicación',
+                            font: { family: 'Inter', weight: 'bold' }
+                        }
+                    },
+                    x: {
+                        ticks: { font: { family: 'Inter' } }
+                    }
+                }
+            }
+        });
+
+        const dbLabelsRaw = ['profiles (Usuarios)', 'courses (Catálogo)', 'lessons (Contenido)', 'enrollments (Progreso)', 'assessments (Test L1/L2)', 'impact_tracking (L3/L4)'];
+        const dbLabels = dbLabelsRaw.map(wrapLabel);
+
+        const ctxDb = document.getElementById('databaseChart').getContext('2d');
+        new Chart(ctxDb, {
+            type: 'bar',
+            data: {
+                labels: dbLabels,
+                datasets: [{
+                    label: 'Registros Estimados (Anual)',
+                    data: [200, 20, 300, 4000, 12000, 3600],
+                    backgroundColor: [
+                        '#1E293B',
+                        '#64748B',
+                        '#94A3B8',
+                        '#3B82F6',
+                        '#D97706',
+                        '#059669'
+                    ],
+                    borderWidth: 0,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                    return label.join(' ');
+                                } else {
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        type: 'logarithmic',
+                        title: {
+                            display: true,
+                            text: 'Volumen de Datos (Escala Log)',
+                            font: { family: 'Inter', weight: 'bold' }
+                        }
+                    },
+                    x: {
+                        ticks: { font: { family: 'Inter', size: 11 } }
+                    }
+                }
+            }
+        });
+        
     </script>
 </body>
 </html>
